@@ -49,30 +49,19 @@ class Interpreter(esolang.level1_statements.Interpreter):
         return result
 
     def whileloop(self, tree):
-        condition = tree.children[0]
-        block = tree.children[1]
-        result = None
-        while self.evaluate_condition(condition):
-            result = self.visit(block)
-        return result
+        while self.evaluate_condition(tree.children[0]):
+            self.visit(tree.children[1])
 
     def evaluate_condition(self, tree):
         left = self.visit(tree.children[0])
         op = tree.children[1].value
         right = self.visit(tree.children[2])
-
-        if op == ">":
-            return left > right
-        elif op == "<":
-            return left < right
-        elif op == ">=":
-            return left >= right
-        elif op == "<=":
-            return left <= right
-        elif op == "==":
-            return left == right
-        elif op == "!=":
-            return left != right
-        else:
-            raise ValueError(f"Unknown comparison operator: {op}")
+        return {
+            ">": left > right,
+            "<": left < right,
+            ">=": left >= right,
+            "<=": left <= right,
+            "==": left == right,
+            "!=": left != right
+        }[op]
 

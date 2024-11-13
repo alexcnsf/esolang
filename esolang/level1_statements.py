@@ -137,7 +137,8 @@ class Interpreter(esolang.level0_arithmetic.Interpreter):
         condition_result = self.visit(tree.children[0])
         true_block = tree.children[1]
         false_output = tree.children[2]
-        if condition_result == 0:
+        if condition_result != 0:
+            return self.visit(true_block)
+        else:
             return self.visit(false_output)
-        return self.visit(true_block)
 
