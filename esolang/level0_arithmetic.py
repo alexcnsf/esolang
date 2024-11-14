@@ -1,5 +1,6 @@
 import lark
 
+
 grammar = r"""
     start: sum
 
@@ -43,22 +44,33 @@ class Interpreter(lark.visitors.Interpreter):
     1
     '''
     def start(self, tree):
-        return self.visit(tree.children[0])
+        res = None
+        for child in tree.children:
+            res = self.visit(child)
+        return res
 
     def number(self, tree):
         return int(tree.children[0].value)
 
     def add(self, tree):
-        return self.visit(tree.children[0]) + self.visit(tree.children[1])
+        v0 = self.visit(tree.children[0])
+        v1 = self.visit(tree.children[1])
+        return v0 + v1
 
     def sub(self, tree):
-        return self.visit(tree.children[0]) - self.visit(tree.children[1])
+        v0 = self.visit(tree.children[0])
+        v1 = self.visit(tree.children[1])
+        return v0 - v1
 
     def mul(self, tree):
-        return self.visit(tree.children[0]) * self.visit(tree.children[1])
+        v0 = self.visit(tree.children[0])
+        v1 = self.visit(tree.children[1])
+        return v0 * v1
 
     def div(self, tree):
-        return self.visit(tree.children[0]) // self.visit(tree.children[1])
+        v0 = self.visit(tree.children[0])
+        v1 = self.visit(tree.children[1])
+        return v0 // v1
 
     def paren(self, tree):
         return self.visit(tree.children[0])
@@ -85,10 +97,13 @@ class Simplifier(lark.Transformer):
     1
     '''
     def start(self, xs):
-        return xs[0] if xs else None
+        if len(xs) > 0:
+            return xs[-1]
+        else:
+            None
 
     def number(self, xs):
-        return int(xs[0])
+        return int(xs[0].value)
 
     def add(self, xs):
         return xs[0] + xs[1]
@@ -104,4 +119,3 @@ class Simplifier(lark.Transformer):
 
     def paren(self, xs):
         return xs[0]
-
