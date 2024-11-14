@@ -103,4 +103,4 @@ ok
 Test passed.
 ```
 
-You can view my code passing all of them in the doctests in the repository!
+You can view my code passing all levels of doctest on recent successful runs in the actions tabs of the repository!
