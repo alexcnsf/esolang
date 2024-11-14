@@ -4,7 +4,7 @@ A simple esolang for experimenting with different syntax and semantics of progra
 
 Here is an example output of running all the level1 doctests!
 
-'''
+```
 $ python3 -m doctest --verbose esolang/level1_statements.py
 Trying:
     interpreter = Interpreter()
@@ -101,6 +101,6 @@ ok
 16 tests in 9 items.
 16 passed and 0 failed.
 Test passed.
-'''
+```
 
 You can view my code passing all of them in the doctests in the repository!
