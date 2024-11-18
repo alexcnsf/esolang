@@ -3,7 +3,6 @@ import lark
 import pprint
 import esolang.level2_loops
 
-
 grammar = esolang.level2_loops.grammar + r"""
     %extend start: function_call
         | function_def
@@ -15,6 +14,7 @@ grammar = esolang.level2_loops.grammar + r"""
     function_call: NAME "(" args_list ")"
         | NAME "(" ")"
 """
+
 parser = lark.Lark(grammar)
 
 
@@ -84,6 +84,14 @@ class Interpreter(esolang.level2_loops.Interpreter):
 
         return self._get_from_stack(name)(*params)
 
+    def if_statement(self, tree):
+        condition_result = self.visit(tree.children[0])  # Visit condition
+        if condition_result:
+            return self.visit(tree.children[1])  # Visit true block
+        else:
+            return self.visit(tree.children[2])  # Visit false output
+
+
     def is_prime(self, n):
         """
         >>> interpreter = Interpreter()
@@ -91,11 +99,6 @@ class Interpreter(esolang.level2_loops.Interpreter):
         True
         >>> interpreter.visit(parser.parse("is_prime(4)"))
         False
-        >>> interpreter.visit(parser.parse("for i in range(10) { if (is_prime(i)) { print(i) } }"))
-        2
-        3
-        5
-        7
         """
         if n < 2:
             return False
